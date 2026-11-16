@@ -68,7 +68,9 @@ Import these files in Postman (**Import** button):
 - [`docs/postman/social-app.postman_collection.json`](docs/postman/social-app.postman_collection.json): the **Social-App API** collection (folders `auth` and `user`)
 - [`docs/postman/social-app-local.postman_environment.json`](docs/postman/social-app-local.postman_environment.json): the **Social-App Local** environment (`baseUrl = http://localhost:3001`)
 
-Or open it online: [Social-App API collection](https://go.postman.co/workspace/4ae48e01-46cd-4a98-8023-3fc41d6f346e) (visible to the workspace members only).
+Or read the published documentation: [Social-App API docs](https://documenter.getpostman.com/view/49920929/2sBYHbqarU)
+
+The API runs locally (`http://localhost:3001`), so start the server first (see *Getting started*) before sending requests from Postman.
 
 Run **Login** first, the tokens are stored as cookies and reused by the other requests. In **Upload Profile Picture** choose an image in the `pp` field.
 
