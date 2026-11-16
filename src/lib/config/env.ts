@@ -18,6 +18,10 @@ const schema = z.object({
     MAILJET_API_SECRET: z.string(),
     MAILJET_FROM_EMAIL: z.string(),
     MAILJET_FROM_NAME: z.string(),
+    S3_ACCESS_KEY: z.string(),
+    S3_SECRET_KEY: z.string(),
+    S3_REGION: z.string(),
+    S3_BUCKET_NAME: z.string(),
 });
 
 const parsed = schema.parse(process.env);
@@ -48,6 +52,12 @@ export const env = {
     jwt: {
         accessSecret: parsed.JWT_ACCESS_SECRET,
         refreshSecret: parsed.JWT_REFRESH_SECRET
+    },
+    aws: {
+        accessKey: parsed.S3_ACCESS_KEY,
+        secretKey: parsed.S3_SECRET_KEY,
+        region: parsed.S3_REGION,
+        bucketName: parsed.S3_BUCKET_NAME,
     },
     google: {
         webClientId: parsed.GOOGLE_WEB_OAUTH_CLIENT_ID,

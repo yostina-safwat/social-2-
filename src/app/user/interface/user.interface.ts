@@ -9,6 +9,7 @@ export interface IUser {
     provider: Provider;
     gender: Gender;
     phoneNumber?: string;
+    profilePicturePath?: string;
     isVerified?: boolean;
     isDeleted?: boolean;
 }

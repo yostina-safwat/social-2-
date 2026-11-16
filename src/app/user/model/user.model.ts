@@ -39,6 +39,7 @@ const schema = new Schema<IUser>({
     phoneNumber: {
         type: String,
     },
+    profilePicturePath: String,
     isVerified: {
         type: Boolean,
         default: false

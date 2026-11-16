@@ -11,9 +11,12 @@ Backend API for a social app, built with Express, TypeScript and MongoDB (Mongoo
 - Password reset with OTP
 - Google sign-in
 
+**User module**
+- Upload / delete profile picture (multer + AWS S3)
+
 ## Tech
 
-express, typescript, mongoose, redis (ioredis), zod, argon2, jsonwebtoken, nodemailer / mailjet, google-auth-library
+express, typescript, mongoose, redis (ioredis), zod, argon2, jsonwebtoken, nodemailer / mailjet, google-auth-library, multer, AWS S3 (`@aws-sdk/client-s3`)
 
 ## Getting started
 
@@ -36,6 +39,16 @@ Other scripts: `npm run build`, `npm start`.
 | POST | `/api/auth/reset-password` | Reset the password with an OTP |
 | POST | `/api/auth/login-google` | Login with a Google ID token |
 | POST | `/api/auth/refresh-token` | Get a new token pair |
+| POST | `/api/user/upload-profile-pic` | Upload a profile picture (form-data field `pp`, requires login) |
+| DELETE | `/api/user/delete-profile-pic` | Delete the profile picture (requires login) |
+
+## AWS S3 setup
+
+Profile pictures are stored in an S3 bucket (`users/<userId>/<timestamp>-<filename>`).
+
+1. Create a bucket and an IAM user with permission to put / get / delete objects on it (e.g. `AmazonS3FullAccess`).
+2. Create an access key for that user.
+3. Fill `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` and `S3_BUCKET_NAME` in `.env`.
 
 ## Postman
 
