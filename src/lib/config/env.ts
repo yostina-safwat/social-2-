@@ -12,8 +12,9 @@ const schema = z.object({
     MAIL_USER: z.string().trim().toLowerCase().default(''),
     MAIL_PASSWORD: z.string().default(''),
     GOOGLE_WEB_OAUTH_CLIENT_ID: z.string().default(''),
+    CACHE_PROVIDER: z.enum(['redis', 'memory']).default('redis'),
     REDIS_PORT: z.string().default('6379'),
-    REDIS_HOST: z.string(),
+    REDIS_HOST: z.string().default('127.0.0.1'),
     REDIS_PASSWORD: z.string().default(''),
     MAILJET_API_KEY: z.string().default(''),
     MAILJET_API_SECRET: z.string().default(''),
@@ -41,6 +42,7 @@ export const env = {
     db: {
         url: parsed.MONGODB_URL,
     },
+    cacheProvider: parsed.CACHE_PROVIDER,
     redis: {
         host: parsed.REDIS_HOST,
         port: Number(parsed.REDIS_PORT),

@@ -26,7 +26,7 @@ cp .env.example .env   # fill in your values
 npm run dev
 ```
 
-Requirements: Node.js 20+, a running MongoDB and a Redis server, a Gmail account with an App Password (`MAIL_USER` / `MAIL_PASSWORD`) to send the emails (or `MAIL_PROVIDER=console` in development, which prints the emails and OTP codes in the terminal instead), and a Google OAuth client id for Google sign-in (optional).
+Requirements: Node.js 20+, a running MongoDB and a Redis server (or `CACHE_PROVIDER=memory` in development, no Redis needed), a Gmail account with an App Password (`MAIL_USER` / `MAIL_PASSWORD`) to send the emails (or `MAIL_PROVIDER=console` in development, which prints the emails and OTP codes in the terminal instead), and a Google OAuth client id for Google sign-in (optional).
 
 Other scripts: `npm run build`, `npm start`.
 
