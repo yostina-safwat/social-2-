@@ -28,6 +28,8 @@ npm run dev
 
 Requirements: Node.js 20+, a running MongoDB and a Redis server (or `CACHE_PROVIDER=memory` in development, no Redis needed), a Gmail account with an App Password (`MAIL_USER` / `MAIL_PASSWORD`) to send the emails (or `MAIL_PROVIDER=console` in development, which prints the emails and OTP codes in the terminal instead), and a Google OAuth client id for Google sign-in (optional).
 
+The server runs on `http://localhost:3001` (change `PORT` in `.env` if you need another port).
+
 Other scripts: `npm run build`, `npm start`.
 
 ## API endpoints
@@ -64,7 +66,7 @@ In both cases the key is `users/<userId>/<timestamp>-<filename>`.
 Import these files in Postman (**Import** button):
 
 - [`docs/postman/social-app.postman_collection.json`](docs/postman/social-app.postman_collection.json): the **Social-App API** collection (folders `auth` and `user`)
-- [`docs/postman/social-app-local.postman_environment.json`](docs/postman/social-app-local.postman_environment.json): the **Social-App Local** environment (`baseUrl = http://localhost:3000`)
+- [`docs/postman/social-app-local.postman_environment.json`](docs/postman/social-app-local.postman_environment.json): the **Social-App Local** environment (`baseUrl = http://localhost:3001`)
 
 Or open it online: [Social-App API collection](https://go.postman.co/workspace/4ae48e01-46cd-4a98-8023-3fc41d6f346e) (visible to the workspace members only).
 

@@ -4,7 +4,7 @@ import {z} from "zod";
 config();
 
 const schema = z.object({
-    PORT: z.string().default('3000'),
+    PORT: z.string().default('3001'),
     MONGODB_URL: z.string(),
     JWT_ACCESS_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),

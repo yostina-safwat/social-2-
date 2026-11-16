@@ -48,6 +48,16 @@ const schema = new Schema<IUser>({
         type: Boolean,
         default: false
     }
-}, {timestamps: true});
+}, {
+    timestamps: true,
+    toJSON: {
+        // never send the password hash (or the version key) to the client
+        transform: (_doc, ret) => {
+            delete (ret as {password?: string}).password;
+            delete (ret as {__v?: number}).__v;
+            return ret;
+        }
+    }
+});
 
 export const User = model<IUser>('User', schema);
