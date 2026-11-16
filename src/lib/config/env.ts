@@ -18,13 +18,18 @@ const schema = z.object({
     MAILJET_API_SECRET: z.string(),
     MAILJET_FROM_EMAIL: z.string(),
     MAILJET_FROM_NAME: z.string(),
-    S3_ACCESS_KEY: z.string(),
-    S3_SECRET_KEY: z.string(),
-    S3_REGION: z.string(),
-    S3_BUCKET_NAME: z.string(),
+    CLOUD_PROVIDER: z.enum(['local', 's3']).default('local'),
+    S3_ACCESS_KEY: z.string().default(''),
+    S3_SECRET_KEY: z.string().default(''),
+    S3_REGION: z.string().default(''),
+    S3_BUCKET_NAME: z.string().default(''),
 });
 
 const parsed = schema.parse(process.env);
+
+if (parsed.CLOUD_PROVIDER === 's3' && !(parsed.S3_ACCESS_KEY && parsed.S3_SECRET_KEY && parsed.S3_REGION && parsed.S3_BUCKET_NAME)) {
+    throw new Error('CLOUD_PROVIDER=s3 needs S3_ACCESS_KEY, S3_SECRET_KEY, S3_REGION and S3_BUCKET_NAME');
+}
 
 export const env = {
     port: Number(parsed.PORT),
@@ -53,6 +58,7 @@ export const env = {
         accessSecret: parsed.JWT_ACCESS_SECRET,
         refreshSecret: parsed.JWT_REFRESH_SECRET
     },
+    cloudProvider: parsed.CLOUD_PROVIDER,
     aws: {
         accessKey: parsed.S3_ACCESS_KEY,
         secretKey: parsed.S3_SECRET_KEY,

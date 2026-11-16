@@ -1,11 +1,11 @@
 import {ICloudProvider} from "../../../pkg/cloud/cloud.interface";
-import {s3CloudProvider} from "../../../lib/cloud/init";
+import {cloudProvider} from "../../../lib/cloud/init";
 import userRepository, {UserRepository} from "../repository/user.repository";
 import {AppError} from "../../../lib/error/error";
 import {userNotExist} from "../errors";
 
 class UserService {
-    private readonly cloudProvider: ICloudProvider = s3CloudProvider;
+    private readonly cloudProvider: ICloudProvider = cloudProvider;
     private readonly userRepository: UserRepository = userRepository;
 
     uploadProfilePicture = async (file: Express.Multer.File, userId: string): Promise<void> => {

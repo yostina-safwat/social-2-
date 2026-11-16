@@ -42,13 +42,20 @@ Other scripts: `npm run build`, `npm start`.
 | POST | `/api/user/upload-profile-pic` | Upload a profile picture (form-data field `pp`, requires login) |
 | DELETE | `/api/user/delete-profile-pic` | Delete the profile picture (requires login) |
 
-## AWS S3 setup
+## Profile picture storage
 
-Profile pictures are stored in an S3 bucket (`users/<userId>/<timestamp>-<filename>`).
+Set `CLOUD_PROVIDER` in `.env`:
+
+- `local` (default): pictures are saved in the `uploads/` folder, no AWS account needed.
+- `s3`: pictures are saved in an S3 bucket, see the setup below.
+
+In both cases the key is `users/<userId>/<timestamp>-<filename>`.
+
+### AWS S3 setup
 
 1. Create a bucket and an IAM user with permission to put / get / delete objects on it (e.g. `AmazonS3FullAccess`).
 2. Create an access key for that user.
-3. Fill `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` and `S3_BUCKET_NAME` in `.env`.
+3. Set `CLOUD_PROVIDER=s3` and fill `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_REGION` and `S3_BUCKET_NAME` in `.env`.
 
 ## Postman
 
