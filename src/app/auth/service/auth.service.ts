@@ -6,7 +6,7 @@ import {invalidCode, invalidCredentials, otpExpired, tooManyAttempts} from "../e
 import {comparePassword, generateAccessToken, generateRefreshToken, hashPassword} from "../utils";
 import {generateOTPCode} from "../../../lib/utils/otp";
 import {cacheProvider} from "../../../lib/cache/init";
-import {nodemailerProvider} from "../../../lib/email/init";
+import {mailProvider} from "../../../lib/email/init";
 import {toSeconds} from "../../../pkg/utils/time";
 import {MailProvider} from "../../../pkg/email/mail.interface";
 import {verifyGoogleToken} from "../../../lib/utils/google-auth";
@@ -23,7 +23,7 @@ export class AuthService {
     private readonly mailProvider: MailProvider;
 
     constructor() {
-        this.mailProvider = nodemailerProvider;
+        this.mailProvider = mailProvider;
     }
 
     register = async (registerDto: RegisterDto) => {
