@@ -12,7 +12,7 @@ Backend API for a social app, built with Express, TypeScript and MongoDB (Mongoo
 - Google sign-in
 
 **User module**
-- Upload / delete profile picture (multer + AWS S3)
+- Upload / delete profile picture (multer, local `uploads/` folder or AWS S3)
 
 ## Tech
 
@@ -25,6 +25,8 @@ npm install
 cp .env.example .env   # fill in your values
 npm run dev
 ```
+
+Requirements: Node.js 20+, a running MongoDB and a Redis server, a Gmail account with an App Password (`MAIL_USER` / `MAIL_PASSWORD`) to send the emails, and a Google OAuth client id for Google sign-in.
 
 Other scripts: `npm run build`, `npm start`.
 
@@ -59,9 +61,14 @@ In both cases the key is `users/<userId>/<timestamp>-<filename>`.
 
 ## Postman
 
-[Social-App API collection](https://go.postman.co/workspace/4ae48e01-46cd-4a98-8023-3fc41d6f346e)
+Import these files in Postman (**Import** button):
 
-The workspace contains the **Social-App API** collection and the **Social-App Local** environment (`baseUrl = http://localhost:3000`).
+- [`docs/postman/social-app.postman_collection.json`](docs/postman/social-app.postman_collection.json): the **Social-App API** collection (folders `auth` and `user`)
+- [`docs/postman/social-app-local.postman_environment.json`](docs/postman/social-app-local.postman_environment.json): the **Social-App Local** environment (`baseUrl = http://localhost:3000`)
+
+Or open it online: [Social-App API collection](https://go.postman.co/workspace/4ae48e01-46cd-4a98-8023-3fc41d6f346e) (visible to the workspace members only).
+
+Run **Login** first, the tokens are stored as cookies and reused by the other requests. In **Upload Profile Picture** choose an image in the `pp` field.
 
 ## Docs
 
