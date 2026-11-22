@@ -1,10 +1,14 @@
 import {NextFunction, Request, Response} from "express";
-import authService, {AuthService} from "../service/auth.service";
+import {inject, injectable} from "tsyringe";
+import {TOKENS} from "../../../lib/di/tokens";
+import {AuthService} from "../service/auth.service";
 import {AppError} from "../../../lib/error/error";
 import {setCookies} from "../utils";
 
-class AuthController {
-    private authService: AuthService = authService;
+@injectable()
+export class AuthController {
+    constructor(@inject(TOKENS.AuthService) private readonly authService: AuthService) {
+    }
 
     register = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -75,4 +79,3 @@ class AuthController {
     }
 }
 
-export default new AuthController();

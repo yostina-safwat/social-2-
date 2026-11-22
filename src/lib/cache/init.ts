@@ -3,7 +3,6 @@ import {MemoryCacheProvider} from "../../pkg/cache/memory";
 import {ICacheProvider} from "../../pkg/cache/cache.interface";
 import {env} from "../config/env";
 
-// redis (default) or memory (development only, no redis server needed)
 export const cacheProvider: ICacheProvider = env.cacheProvider === 'memory'
     ? new MemoryCacheProvider()
     : new RedisCacheProvider({

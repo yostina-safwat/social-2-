@@ -1,8 +1,8 @@
 import {mkdir, readFile, rm, writeFile} from "node:fs/promises";
 import path from "node:path";
-import {ICloudProvider} from "./cloud.interface";
+import {ICloudProvider, PresignedFileInfo} from "./cloud.interface";
+import {AppError} from "../../lib/error/error";
 
-// stores the files on the server disk, useful for development without an S3 bucket
 export class LocalCloudProvider implements ICloudProvider {
     private readonly rootDir: string;
 
@@ -11,13 +11,16 @@ export class LocalCloudProvider implements ICloudProvider {
     }
 
     async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
-        // ":" is not allowed in file names on Windows
         const stamp = new Date().toISOString().replace(/:/g, '-');
         const key = `${folder}/${stamp}-${path.basename(file.originalname)}`;
         const fullPath = this.resolveKey(key);
         await mkdir(path.dirname(fullPath), {recursive: true});
         await writeFile(fullPath, file.buffer);
         return key;
+    }
+
+    async generatePresignedUrl(_file: PresignedFileInfo, _path: string): Promise<string> {
+        throw new AppError('Presigned urls need CLOUD_PROVIDER=s3', 501);
     }
 
     async getFile(key: string): Promise<Buffer> {
@@ -28,7 +31,6 @@ export class LocalCloudProvider implements ICloudProvider {
         await rm(this.resolveKey(key), {force: true});
     }
 
-    // make sure a key can never point outside the root folder
     private resolveKey(key: string): string {
         const fullPath = path.resolve(this.rootDir, key);
         if (!fullPath.startsWith(this.rootDir + path.sep)) {

@@ -7,7 +7,13 @@
     "esModuleInterop": true,
     "module": "nodenext",
     "target": "esnext",
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

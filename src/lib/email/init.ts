@@ -6,7 +6,6 @@ import {MailProvider} from "../../pkg/email/mail.interface";
 
 export const nodemailerProvider = new NodemailerProvider(env.nodemailer);
 
-// Mailjet is optional: create it only when you set the MAILJET_* values in .env
 export function createMailjetProvider(): MailjetProvider {
     return new MailjetProvider({
         apiKey: env.mailjet.apiKey,
@@ -16,6 +15,5 @@ export function createMailjetProvider(): MailjetProvider {
     });
 }
 
-// the provider used by the app: smtp (Gmail) or console (development)
 export const mailProvider: MailProvider =
     env.mailProvider === 'console' ? new ConsoleMailProvider() : nodemailerProvider;

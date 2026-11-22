@@ -1,13 +1,5 @@
-import {HydratedDocument, model, Schema, Types} from 'mongoose';
-
-export interface IPost {
-    content: string;
-    userId: Types.ObjectId;
-    commentsCount: number;
-    reactionsCount: number;
-    allowsComments: boolean;
-    isDeleted?: boolean;
-}
+import {HydratedDocument, model, Schema} from 'mongoose';
+import {IPost} from "../interface/post.interface";
 
 export type PostDocument = HydratedDocument<IPost>;
 
@@ -41,5 +33,8 @@ const schema = new Schema<IPost>({
         default: false
     }
 }, {timestamps: true});
+
+schema.index({userId: 1, createdAt: -1});
+schema.index({isDeleted: 1, createdAt: -1});
 
 export const Post = model<IPost>('Post', schema);

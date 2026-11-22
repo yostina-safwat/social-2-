@@ -1,9 +1,18 @@
 import {Router} from "express";
-import userController from "./controller/user.controller";
+import container from "../../lib/di/container";
+import {TOKENS} from "../../lib/di/tokens";
+import {UserController} from "./controller/user.controller";
 import {multerUploadSingle} from "../../lib/media/multer";
 import {authGuard} from "../../lib/auth/authGuard";
+import {validate} from "../../lib/validation/validate";
+import {presignedUrlSchema} from "./validation/user.validation";
+
+const userController = container.resolve<UserController>(TOKENS.UserController);
 
 export const userRouter = Router();
 
-userRouter.post('/upload-profile-pic', authGuard, multerUploadSingle('pp'), userController.uploadProfilePicture);
-userRouter.delete('/delete-profile-pic', authGuard, userController.deleteProfilePic);
+userRouter.use(authGuard);
+
+userRouter.post('/upload-profile-pic', multerUploadSingle('pp'), userController.uploadProfilePicture);
+userRouter.post('/get-presigned-url', validate({body: presignedUrlSchema}), userController.generatePresignedUrl);
+userRouter.delete('/delete-profile-pic', userController.deleteProfilePic);

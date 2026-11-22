@@ -1,5 +1,7 @@
 import {DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
-import {ICloudProvider} from "./cloud.interface";
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
+import {ICloudProvider, PresignedFileInfo} from "./cloud.interface";
+import {toSeconds} from "../utils/time";
 
 interface S3Config {
     region: string;
@@ -33,6 +35,15 @@ export class S3CloudProvider implements ICloudProvider {
         });
         await this.client.send(command);
         return key;
+    }
+
+    async generatePresignedUrl(file: PresignedFileInfo, path: string): Promise<string> {
+        const command = new PutObjectCommand({
+            Bucket: this.bucketName,
+            Key: `${path}/${new Date().toISOString()}-${file.originalname}`,
+            ContentType: file.mimetype,
+        });
+        return getSignedUrl(this.client, command, {expiresIn: toSeconds(5, 'minutes')});
     }
 
     async getFile(key: string): Promise<Buffer> {

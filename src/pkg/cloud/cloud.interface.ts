@@ -1,12 +1,14 @@
-// contract for cloud storage
-// dependency injection
+export interface PresignedFileInfo {
+    mimetype: string;
+    originalname: string;
+}
 
-// file-information >> {originalname, mimetype, size, buffer}
 export interface ICloudProvider {
-    // return key
     uploadFile(file: Express.Multer.File, path: string): Promise<string>;
 
     getFile(key: string): Promise<Buffer>;
 
     deleteFile(key: string): Promise<void>;
+
+    generatePresignedUrl(file: PresignedFileInfo, path: string): Promise<string>;
 }

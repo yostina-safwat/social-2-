@@ -3,3 +3,7 @@ dist
 .env
 .idea
 uploads
+firebase-service-account.json
+*-firebase-adminsdk-*.json
+lambda/**/node_modules
+lambda/**/function.zip

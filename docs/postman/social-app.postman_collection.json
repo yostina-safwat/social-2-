@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Social-App API",
-    "description": "Auth and user modules of the Social-App backend. Tokens are sent as httpOnly cookies, so run Login first and Postman will reuse the cookies for the following requests.",
+    "description": "Auth, user, post and comment modules of the Social-App backend. Tokens are sent as httpOnly cookies, so run Login first and Postman will reuse the cookies for the following requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -252,7 +252,7 @@
                 "upload-profile-pic"
               ]
             },
-            "description": "Uploads the profile picture (replaces the old one). Requires login. Form-data file field named `pp`.",
+            "description": "Uploads the profile picture through the server (replaces the old one). Requires login. Form-data file field named `pp`.",
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -262,6 +262,39 @@
                   "src": []
                 }
               ]
+            }
+          }
+        },
+        {
+          "name": "Get Presigned Url",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/user/get-presigned-url",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "get-presigned-url"
+              ]
+            },
+            "description": "Returns a temporary url (5 minutes) to upload the picture straight to S3 with a PUT request. Needs CLOUD_PROVIDER=s3. Requires login.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fileName\": \"me.png\",\n  \"contentType\": \"image/png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         },
@@ -282,6 +315,280 @@
               ]
             },
             "description": "Deletes the profile picture of the logged in user. Requires login."
+          }
+        }
+      ]
+    },
+    {
+      "name": "post",
+      "item": [
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/post",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "post"
+              ]
+            },
+            "description": "Creates a post for the logged in user.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"my first post\",\n  \"allowsComments\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/post?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "post"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Returns the posts of the logged in user, newest first."
+          }
+        },
+        {
+          "name": "Get Single Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/post/<post id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "post",
+                "<post id>"
+              ]
+            },
+            "description": "Returns one post by its id (cached for 5 minutes)."
+          }
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/post/<post id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "post",
+                "<post id>"
+              ]
+            },
+            "description": "Only the post owner can update the post.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"edited post\",\n  \"allowsComments\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/post/<post id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "post",
+                "<post id>"
+              ]
+            },
+            "description": "Only the post owner can delete the post."
+          }
+        }
+      ]
+    },
+    {
+      "name": "comment",
+      "item": [
+        {
+          "name": "Create Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comment"
+              ]
+            },
+            "description": "Adds a comment to a post. Send parentId to reply to a comment.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"postId\": \"<post id>\",\n  \"content\": \"nice post\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Post Comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/comment/post/<post id>?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comment",
+                "post",
+                "<post id>"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Returns the comments of a post, newest first."
+          }
+        },
+        {
+          "name": "Get Single Comment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/comment/<comment id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comment",
+                "<comment id>"
+              ]
+            },
+            "description": "Returns one comment by its id."
+          }
+        },
+        {
+          "name": "Update Comment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comment/<comment id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comment",
+                "<comment id>"
+              ]
+            },
+            "description": "Only the comment owner can update the comment.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"edited comment\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/comment/<comment id>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comment",
+                "<comment id>"
+              ]
+            },
+            "description": "Only the comment owner or the post owner can delete the comment."
           }
         }
       ]

@@ -2,7 +2,6 @@ import multer, {memoryStorage, Multer} from "multer";
 import {RequestHandler} from "express";
 
 export function multerUpload(): Multer {
-    // keep the file in memory (file.buffer) then send it to the cloud provider
     return multer({storage: memoryStorage()});
 }
 

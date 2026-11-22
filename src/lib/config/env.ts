@@ -20,6 +20,7 @@ const schema = z.object({
     MAILJET_API_SECRET: z.string().default(''),
     MAILJET_FROM_EMAIL: z.string().default(''),
     MAILJET_FROM_NAME: z.string().default(''),
+    FIREBASE_SERVICE_ACCOUNT_PATH: z.string().default(''),
     CLOUD_PROVIDER: z.enum(['local', 's3']).default('local'),
     S3_ACCESS_KEY: z.string().default(''),
     S3_SECRET_KEY: z.string().default(''),
@@ -65,6 +66,9 @@ export const env = {
     jwt: {
         accessSecret: parsed.JWT_ACCESS_SECRET,
         refreshSecret: parsed.JWT_REFRESH_SECRET
+    },
+    firebase: {
+        serviceAccountPath: parsed.FIREBASE_SERVICE_ACCOUNT_PATH,
     },
     cloudProvider: parsed.CLOUD_PROVIDER,
     aws: {

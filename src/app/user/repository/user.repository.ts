@@ -1,7 +1,9 @@
+import {injectable} from "tsyringe";
 import {AbstractRepository} from "../../../lib/db/abstract.repository";
 import {IUser} from "../interface/user.interface";
 import {User, UserDocument} from "../model/user.model";
 
+@injectable()
 export class UserRepository extends AbstractRepository<IUser> {
     constructor() {
         super(User);
@@ -11,6 +13,3 @@ export class UserRepository extends AbstractRepository<IUser> {
         return User.findOne({email: email});
     }
 }
-
-// singleton
-export default new UserRepository();

@@ -5,7 +5,6 @@ interface Entry {
     expiresAt: number;
 }
 
-// development only: keeps the data in the server memory (it is lost when the server restarts)
 export class MemoryCacheProvider implements ICacheProvider {
     private store = new Map<string, Entry>();
 
@@ -33,7 +32,6 @@ export class MemoryCacheProvider implements ICacheProvider {
         return existed ? 1 : 0;
     }
 
-    // same results as redis: -2 when the key does not exist
     async ttl(key: string): Promise<number> {
         const entry = this.read(key);
         if (!entry) return -2;
